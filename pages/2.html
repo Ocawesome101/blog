@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<link rel="stylesheet" href="https://oz-craft.pickardayune.com/blog/style.css">
+
+<html>
+  <title>
+    Ocawesome101's Blog
+  </title>
+  <head></head>
+  <body>
+    <h1>
+      On Monolith's Startup Time
+    </h1>
+    For those of you who have stumbled across this blog and are unaware, I am the creator and primary developer of the <a href="https://github.com/ocawesome101/oc-monolith">Monolith operating system</a> for the <a href="https://www.curseforge.com/minecraft/mc-mods/opencomputers">OpenComputers Minecraft mod</a>.
+    <br><br>
+    A week or so ago, I ran some tests comparing the startup times of OpenOS (the default and recommended operating system included with OpenComputers), Plan9k (an old, unmaintained OS from the OpenComputers 1.3 days but still shipped with the mod), <a href="https://github.com/ocawesome101/open-kernel">Open Kernel</a> (my first "usable" OpenComputers OS), <a href="https://github.com/ocawesome101/open-kernel-2">Open Kernel 2</a> (a pretty terrible UNIX-like, but slightly better in some ways than Open Kernel), <a href="https://github.com/ocawesome101/photon">Photon</a> (a slightly better and less-UNIX-like OS, focusing on boot time - still beat somehow by Open Kernel 2), and Monolith. The results are in the below table.
+    <br><br><pre>
++-----------------------------------------------------------------+
+| NAME     | USABILITY | T1 HDD | T3+T1HDD | T3 FLOPPY | T3+T3HDD |
++----------+-----------+--------+----------+-----------+----------+
+| OpenOS   | 10/10     | 3.5s   | 1.65s    | 2.95s     | 1.15s    |
++----------+-----------+--------+----------+-----------+----------+
+| Plan9k   | 4/10      | 6.9s   | 2.85s    | 4.55s     | 2.25s    |
++----------+-----------+--------+----------+-----------+----------+
+| Photon   | 3/10      | 2.2s   | 0.85s    | 1.6s      | 0.7s     |
++----------+-----------+--------+----------+-----------+----------+
+| OpenKrnl | 1/10      | 5.2s   | 1.40s    | 2.2s      | 1.05s    |
++----------+-----------+--------+----------+-----------+----------+
+| OpnKrnl2 | 4/10      | 1.6s   | 0.75s    | 1.3s      | 0.55s    |
++----------+-----------+--------+----------+-----------+----------+
+| Monolith | 8/10      | 6.1s   | 3.20s    | 4.65s     | 2.85s    |
++-----------------------------------------------------------------+
+    </pre><br>
+    You may notice that Monolith, in all cases, is the slowest when it comes to boot times. Why?
+    <br><br>
+    <!--This <a> thing for computer.getDeviceInfo is a haaaaaaaack beyond measure-->
+    1) API calls: Monolith uses <a>computer.getDeviceInfo</a> for its multi-terminal support. This function takes nearly an entire second to return even on Tier 3 computers with a higher call budget;<br>
+    2) More to load?: Compared to every other OS - except, perhaps, Plan9k - Monolith may load more kilobytes from disk. This is a theory and has not been proven.<br>
+    3) Slow logger?: Open Kernel 2 boots far slower with the logger enabled. It seems to help Monolith slightly, but not as much so.<br><br>
+    Open Kernel 2 and Photon simply don't load very much from disk - Open Kernel 2 has almost everything essential baked into the kernel, while Photon is just tiny - and OpenOS employs some tricks such as splitting libraries into two files.
+  </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<link rel="stylesheet" href="https://oz-craft.pickardayune.com/blog/style.css">
+
+<html>
+  <title>
+    Ocawesome101's Blog
+  </title>
+  <head></head>
+  <body>
+    <h1>
+      Some of Monolith's Design Decisions and the Rationale Behind Them
+    </h1>
+    As happens naturally over the course of developing a large project such as Monolith (coming in at about 9095 lines of code, at the time of writing), certain design choices must be made.
+    <br><br>
+    There were a few decisions, such as using exclusively VT100 for terminal I/O, that I had already made prior to beginning development. Others, such as supporting multiple terminals, came after I had largely gotten the kernel to a working state. Still others, such as certain features of my `readline` implementation, came while developing programs--in the case of readline, `vled` required a few features that I didn't yet have (namely the ability to specify handlers for arrow keys, and a few abilities for these handlers).
+    <br><br>
+    There are a few design decisions that are, admittedly, somewhat questionable. For instance, the default standard I/O stream (to/from the terminal) is completely un-buffered, to the point where it doesn't even pass through the `buffer` library. Or, the decision to provide the `gpu` and `screen` fields in the default standard I/O stream to allow programs to more easily retrieve the width and height of the terminal; this is purely a convenience.
+    <br><br>
+  </body>
+</html>
